@@ -5,14 +5,42 @@ $(document).ready(function() {
     constructor () {
       this.server = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages/';
       //document.addEventListener('click', function() { console.log('HELLO'); });
-      
+      this.rooms = [];
+      this.currentRoom = 'All';
+      this.username;
+
     }
 
     init() {
-      console.log('initializing');
-      //$('.username').on('click', function() { console.log('here123'); });
+      console.log('THIS: ', this);
+      window.app.fetch();
+      //$('.username').on('click', this.handleUsernameClick());
+      $('.Submit').on('click', window.app.handleSubmit.bind(this));
+      $('#roomSelect').on('change', window.app.handleRoomSelectionChange);
+    }
+
+    handleSubmit() {
+      console.log('new msg', $('#userInput').val());
+      window.app.send(window.app.createMessage($('#userInput').val()));
+      $('#userInput').val(' ');
+    }
+
+    createMessage(text) {
+      return {
+        username: this.username,
+        text: this.text,
+        roomname: this.currentRoom
+      }
+    }
+
+    handleRoomSelectionChange() {
+      let roomname = $('#roomsDropDownList').val();
       
-      //document.addEventListener('click', this.handleUsernameClick);
+    }
+
+    renderRoom(roomname) {
+      let $roomSelectDropDown = $('#roomSelect');
+      $roomSelectDropDown.append('<option>' + roomname + '</option>');
     }
 
     send(message) {
@@ -81,13 +109,8 @@ $(document).ready(function() {
       });
     }
 
-    renderRoom(roomname) {
-      let $roomSelectDropDown = $('#roomSelect');
-      $roomSelectDropDown.append('<option>' + roomname + '</option>');
-    }
-
     handleUsernameClick() {
-      console.log('inside username click');
+      console.log ( ' YAAaaay');
     }
 
     
@@ -95,15 +118,17 @@ $(document).ready(function() {
   
 }
   window.app = new Chatterbox();
+  window.app.init();
   var message = {
     username: 'Marcus Philips',
     text: 'trololo',
     roomname: 'main'
   };
   window.app.send(message);
-  window.app.fetch();
-  window.app.renderMessage(message);
   
+  window.app.renderMessage(message);
+
+
 
 
 }); //End of document.ready

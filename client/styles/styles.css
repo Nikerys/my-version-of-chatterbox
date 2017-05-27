@@ -54,6 +54,7 @@ form {
 
 form input[type=text] {
     margin-right: 10px;
+    margin-top: 20px;
     width: 70%;
     font-size: 12px;
     padding: 5px;
@@ -73,7 +74,12 @@ form input[type=text] {
     background-color: #ddd;
 }
 
-
+#room-paragraph {
+    padding: 0px;
+    padding-left: 0;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
 
 .spinner {
     float: right;
