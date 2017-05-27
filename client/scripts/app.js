@@ -32,7 +32,9 @@ $(document).ready(function() {
       });
     
     }
-
+    test(testMsg) {
+      console.log('inside test: ', testMsg );
+    }
     fetch() {
       $.ajax({
         // This is the url you should use to communicate with the parse API server.
@@ -41,11 +43,12 @@ $(document).ready(function() {
         //data: JSON.stringify(message),
         contentType: 'application/json',
         success: function (data) {
-          console.log('chatterbox: Message fetched', data);
+          window.app.renderAllMessages(data.results);
+          console.log('chatterbox: Fetching all messafges', data);
         },
         error: function (data) {
           // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-          console.error('chatterbox: Failed to fetch message', data);
+          console.error('chatterbox: Failed to fetch all messages', data);
         }
       });
     }
@@ -56,9 +59,26 @@ $(document).ready(function() {
 
     renderMessage(message) {
       console.log('rendering Message');
+      let $messageDiv = $('<div class="chat"></div>');
+
       let $newMsg = $('<span class="message"></span');
       $newMsg.text(message.text);
-      $('#chats').append($newMsg);
+
+      let $nameSpan = $('<span class="username"></span>');
+      $nameSpan.text(message.username);
+
+       
+      $($messageDiv).append($nameSpan);
+      $($messageDiv).append($('<br>'));
+      $($messageDiv).append($newMsg);
+      $('#chats').append($messageDiv);
+    }
+
+    renderAllMessages(messages) {
+      console.log('rendering all Messages', messages);
+      messages.forEach( message => {
+        window.app.renderMessage(message);
+      });
     }
 
     renderRoom(roomname) {
@@ -76,18 +96,18 @@ $(document).ready(function() {
 }
   window.app = new Chatterbox();
   var message = {
-    username: 'shawndrost',
+    username: 'Marcus Philips',
     text: 'trololo',
     roomname: 'main'
   };
   window.app.send(message);
   window.app.fetch();
   window.app.renderMessage(message);
-  $('.username').on('click', function() { console.log('here123'); });
   
 
 
 }); //End of document.ready
+
 
 
 
