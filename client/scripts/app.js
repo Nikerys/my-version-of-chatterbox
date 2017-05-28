@@ -7,8 +7,8 @@ $(document).ready(function() {
       //document.addEventListener('click', function() { console.log('HELLO'); });
       this.rooms = [];
       this.currentRoom = 'All';
-      this.username;
-
+      this.username = 'Nikerys';
+      // this.text = 'asdas';
     }
 
     init() {
@@ -25,16 +25,21 @@ $(document).ready(function() {
       $('#userInput').val(' ');
     }
 
-    createMessage(text) {
+    createMessage(msg) {
       return {
         username: this.username,
-        text: this.text,
+        text: msg,
         roomname: this.currentRoom
-      }
+      };
     }
 
     handleRoomSelectionChange() {
       let roomname = $('#roomsDropDownList').val();
+      
+    }
+
+    populateTheRoomDropDownMenu() {
+      var $roomList = $('#roomSelect');
       
     }
 
@@ -52,6 +57,7 @@ $(document).ready(function() {
         contentType: 'application/json',
         success: function (data) {
           console.log('chatterbox: Message sent', data);
+          window.app.fetch();
         },
         error: function (data) {
           // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -68,7 +74,9 @@ $(document).ready(function() {
         // This is the url you should use to communicate with the parse API server.
         url: this.server,
         type: 'GET',
-        //data: JSON.stringify(message),
+        data: {
+          'order': '-createdAt'
+        },
         contentType: 'application/json',
         success: function (data) {
           window.app.renderAllMessages(data.results);
@@ -104,6 +112,7 @@ $(document).ready(function() {
 
     renderAllMessages(messages) {
       console.log('rendering all Messages', messages);
+      $('#chats').empty();
       messages.forEach( message => {
         window.app.renderMessage(message);
       });
@@ -119,14 +128,14 @@ $(document).ready(function() {
 }
   window.app = new Chatterbox();
   window.app.init();
-  var message = {
-    username: 'Marcus Philips',
-    text: 'trololo',
-    roomname: 'main'
-  };
-  window.app.send(message);
+  // var message = {
+  //   username: 'Marcus Philips',
+  //   text: 'trololo',
+  //   roomname: 'main'
+  // };
+  // window.app.send(message);
   
-  window.app.renderMessage(message);
+  // window.app.renderMessage(message);
 
 
 
